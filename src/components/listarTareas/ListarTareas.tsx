@@ -20,19 +20,19 @@ import { Plus } from "lucide-react";
 import Link from "next/link";
 
 export const ListarTareas = () => {
-  const { tasks, deleteTask } = useTaskStore();
+  const { tasks, deleteTask, markTaskAsCompleted, markTaskAsPending } =
+    useTaskStore();
   const handleDelete = (id: string) => {
     deleteTask(id);
   };
 
-  const handleEstado = (tarea: Tarea, estado: any) => {
-    if (estado === true) {
-      tarea.estado = "terminada";
+  const handleEstado = (taskId: string, checked: boolean) => {
+    const newEstado = checked ? "terminada" : "pendiente";
+    if (newEstado === "terminada") {
+      markTaskAsCompleted(taskId);
     } else {
-      tarea.estado = "pendiente";
+      markTaskAsPending(taskId);
     }
-    console.log(estado);
-    console.log(tarea);
   };
 
   return (
@@ -62,14 +62,22 @@ export const ListarTareas = () => {
                 >
                   <div className="flex justify-start items-center gap-3 ">
                     <Checkbox
-                      checked={tarea.estado === "pendiente" ? false : tarea.estado === "terminada" ? true: false}
-                      onCheckedChange= {(estado) => handleEstado(tarea, estado)}
+                      checked={tarea.estado === "terminada"}
+                      onCheckedChange={(checked: boolean) =>
+                        handleEstado(tarea.id, checked)
+                      }
                     />
-                    <div className="space-y-1 leading-none">
-                      <div className="font-semibold text-base text-slate-900">
-                        {tarea.nombre}
-                      </div>
-                    </div>
+                    <span
+                      style={{
+                        textDecoration:
+                          tarea.estado === "terminada"
+                            ? "line-through"
+                            : "none",
+                      }}
+                      className="font-semibold text-base text-slate-900"
+                    >
+                      {tarea.nombre}
+                    </span>
                   </div>
                   <div className="flex justify-end items-center gap-3 ">
                     <Button variant="ghost" size="icon">

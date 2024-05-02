@@ -14,8 +14,7 @@ const useTaskStore = create<TaskStore>((set:any) => ({
 
     
     set((state: TaskStore) => ({
-      tasks: [...state.tasks, newTask],
-    })),
+      tasks: [...state.tasks, newTask],    })),
 
   // Función para actualizar una tarea existente en el almacenamiento
   updateTask: (taskId: string, updatedTask: Partial<Tarea>) =>
@@ -29,6 +28,7 @@ const useTaskStore = create<TaskStore>((set:any) => ({
   deleteTask: (taskId: string) =>
     set((state: TaskStore) => ({
       tasks: state.tasks.filter((task) => task.id !== taskId),
+      
     })),
 
   // Función para marcar una tarea como terminada
