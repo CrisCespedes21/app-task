@@ -60,12 +60,12 @@ export const EditarTarea: React.FC<EditarTareaProps> = ({ id }) => {
       id: tareaActualizar.id,
       nombre: data.nombre,
       descripcion: data.descripcion,
-      color: data.color,
-      categoria: data.categoria,
-      ciclo: data.ciclo,
-      frecuencia: data.frecuencia,
+      color: data.color ? data.color : colorActivo,
+      categoria: data.categoria   ? data.categoria : categoriaActiva,
+      ciclo: data.ciclo ? data.ciclo : cicloActivo,
+      frecuencia: data.frecuencia ? data.frecuencia : frecuencia,
       estado: "pendiente",
-      dias: [],
+      dias: [] || selectedDays,
     };
     console.log(tareaEditada);
     updateTask(tareaEditada.id, tareaEditada);
@@ -129,7 +129,7 @@ export const EditarTarea: React.FC<EditarTareaProps> = ({ id }) => {
               <div className="flex flex-col space-y-1.5">
                 <Input
                   required
-                  value={tareaActualizar.nombre}
+                  defaultValue={tareaActualizar.nombre}
                   {...register("nombre")}
                   id="nombre"
                   placeholder="Nombre de tu tarea"
@@ -138,7 +138,7 @@ export const EditarTarea: React.FC<EditarTareaProps> = ({ id }) => {
               <div className="flex flex-col space-y-1.5">
                 <Input
                   required
-                  value={tareaActualizar.descripcion}
+                  defaultValue={tareaActualizar.descripcion}
                   {...register("descripcion")}
                   id="descripcion"
                   placeholder="Descripción de tu tarea"
